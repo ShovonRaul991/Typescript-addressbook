@@ -1,0 +1,200 @@
+*{
+    box-sizing: border-box;
+}
+
+h1,h2,p{
+    margin-top: 0;
+}
+
+body{
+    margin:0;
+    padding: 0px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 499;
+    font-size: 14px;
+}
+
+.page-header{
+    background-color: #3399CC;
+    color: #fff;
+}
+
+.page-title{
+    margin:0;
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 54px;
+    padding: 25px 30px;
+    font-weight: lighter;
+    font-family: "Century Gothic";
+    text-transform: capitalize;
+}
+
+.page-navigation{
+    background-color: #333333;
+    display: flex;
+    justify-content: space-between;
+    padding-right: 40px;
+}
+
+.page-nav-items{
+    display: inline-flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+
+.page-nav-items a{
+    display: inline-flex;
+    padding: 5px 25px 0px;
+    font-weight: bolder;
+    color:white;
+    font-size: 16px;
+    text-decoration: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-transform: uppercase;
+}
+
+.page-navigation img{
+    padding: 5px;
+}
+
+.page-form{
+    height: 81vh;
+    width: 100vw;
+    display: flex;
+}
+
+/* left part */
+.contact-list{
+    width: 25%;
+    background-color: white;
+    margin: 20px;
+    padding: 20px;
+}
+.contact-list-header h3{
+    text-transform: uppercase;
+    margin: 0px 0px 15px;
+}
+.contact-list-item{
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    padding: 5px;
+}
+.contact-list-item:hover{
+    background-color: #CEE7F2;
+}
+
+.contact-list-item:last-child{
+    border-bottom: 1px solid black;
+}
+.name,.email,.mobile{
+    margin:0px;
+    font-weight: 100;
+}
+.name{
+    font-size: 25px;
+}
+.email,.mobile{
+    font-size: 10px;
+    
+}
+
+/* right part */
+.view-details{
+    position: sticky;
+    width: 40%;
+    margin: 20px;
+    padding: 50px;
+}
+.view-details-header{
+    display: flex;
+    justify-content: space-between;
+    font-size: 15px;
+}
+.Person-Name{
+    font-size: 30px;
+    width: fit-content;
+}
+#edit, #delete{
+    opacity: 0;
+    padding-right: 20px;
+}
+.icon-edit,icon-delete{
+    height: 15px;
+    width: 15px;
+    text-transform: uppercase;
+}
+.icon-delete{
+    position: relative;
+    top:10px
+}
+.detail-email,.detail-landline,.detail-site{
+    margin-bottom: 20px;
+}
+.detail-address{
+    display: flex;
+}
+.detail-address p{
+    margin: 0px;
+    padding-left: 5px;
+}
+
+@media screen and (max-width: 450px) {
+    .page-nav-items{
+      float: none;
+      display: block;
+    }
+    
+}
+
+.input-form-hidden{
+    display: none;
+    margin-top: 50px;
+    margin-left: 40px;
+    padding: 20px;
+    width: 40%;
+    height: 70%;
+    border: 1px soplid black;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+    
+
+}
+
+.mobile-landline{
+    display: grid;
+    grid-template-columns: auto auto;
+}
+#NameEntry,#EmailEntry,#WebsiteEntry,#AddressEntry{
+    width: 100%;
+    height: 25px;
+    margin-bottom: 20px;
+}
+#MobileEntry, #LandlineEntry{
+    width: 100%;
+    height: 25px;
+    margin-bottom: 20px;
+}
+.mobile-Entry{
+    margin-right: 20px
+}
+#AddressEntry{
+    height: 10%;
+}
+.submit-button{
+    float: right;
+}
+#submitButton{
+    background-color: green;
+    border: 0px;
+    padding: 5px 20px;
+    color: white;
+    font-size: 10px;
+    margin-left: 5px;
+}
+
+
+
+
