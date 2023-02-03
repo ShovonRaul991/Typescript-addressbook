@@ -78,10 +78,13 @@ body{
     margin: 0px 0px 15px;
 }
 .contact-list-item{
-    border-top: 1px solid black;
-    border-left: 1px solid black;
-    border-right: 1px solid black;
+    border: 1px solid black;
+    border-bottom: 0;
     padding: 5px;
+    width: 100%;
+    text-align: left;
+    background-color: white;
+    padding: 10px;
 }
 .contact-list-item:hover{
     background-color: #CEE7F2;
@@ -90,6 +93,7 @@ body{
 .contact-list-item:last-child{
     border-bottom: 1px solid black;
 }
+
 .name,.email,.mobile{
     margin:0px;
     font-weight: 100;
