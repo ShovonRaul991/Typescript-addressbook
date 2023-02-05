@@ -19,9 +19,10 @@ let detailLandline = document.getElementById('detail-landline-value') as HTMLSpa
 let detailWebSite = document.getElementById('detail-site-value') as HTMLSpanElement;
 let detailAddress = document.getElementById('detail-address-value') as HTMLSpanElement;
 let human1 = document.getElementById('1') as HTMLElement;
-let buttons  = document.getElementsByClassName('contact-list-item');
+let personInAddressbook  = document.querySelector('.contact-list-item') as HTMLDivElement;
 
 class person{
+    
     name:string;
     email:string;
     mobile:number;
@@ -35,6 +36,7 @@ class person{
         this.landline = landline;
         this.website = website;
         this.address = address;
+        
     }
 }
 
@@ -50,6 +52,17 @@ detailMobile.innerHTML = String(person1.mobile);
 detailLandline.innerHTML = String(person1.landline);
 detailAddress.innerHTML = person1.address;
 detailWebSite.innerHTML = person1.website;
+
+/*
+personInAddressbook.addEventListener('click', function(){
+    nameHeader.innerHTML = Identity[Number(personInAddressbook.id)-1].name;
+    detailEmail.innerHTML = Identity[Number(personInAddressbook.id)-1].email;
+    detailMobile.innerHTML = String(Identity[Number(personInAddressbook.id)-1].mobile);
+    detailLandline.innerHTML = String(Identity[Number(personInAddressbook.id)-1].landline);
+    detailAddress.innerHTML = Identity[Number(personInAddressbook.id)-1].address;
+    detailWebSite.innerHTML = Identity[Number(personInAddressbook.id)-1].website;
+})
+*/
 
 function creatingContact(){
     let count = 1;
@@ -76,8 +89,20 @@ function creatingContact(){
 
         contactlist.appendChild(contact);
         count++;
+        
+        contact.addEventListener('click', function(){
+            nameHeader.innerHTML = human.name;
+            detailEmail.innerHTML = human.email;
+            detailMobile.innerHTML = String(human.mobile);
+            detailLandline.innerHTML = String(human.landline);
+            detailAddress.innerHTML = human.address;
+            detailWebSite.innerHTML = human.website;
+        })
+
 
     })
+
+    
 }
 
 function openInputForm(){
@@ -94,7 +119,7 @@ function addDetails(){
 
         const contact = document.createElement('div');
         contact.setAttribute('class', 'contact-list-item');
-        contact.setAttribute('id','human'+Identity.length);
+        contact.setAttribute('id',String(Identity.length));
 
         const nameValue = document.createElement('p')
         nameValue.setAttribute('class','name')
@@ -113,12 +138,21 @@ function addDetails(){
         contact.appendChild(mobileValue);
 
         contactlist.appendChild(contact);
+
+        contact.addEventListener('click', function(){
+            nameHeader.innerHTML = Identity[Number(contact.id)-1].name;
+            detailEmail.innerHTML = Identity[Number(contact.id)-1].email;
+            detailMobile.innerHTML = String(Identity[Number(contact.id)-1].mobile);
+            detailLandline.innerHTML = String(Identity[Number(contact.id)-1].landline);
+            detailAddress.innerHTML = Identity[Number(contact.id)-1].address;
+            detailWebSite.innerHTML = Identity[Number(contact.id)-1].website;
+        })
         
     }
 
     //creatingContact();
     inputform.style.display = 'none';
-    //addressview.style.display = 'block';
+    addressview.style.display = 'block';
     form.reset();
 }
 
@@ -126,7 +160,7 @@ function addDetails(){
 
 
 
-
+/*
     for(let i =0;i<buttons.length;i++){
         buttons[i].addEventListener('click',function(){
             let index = Number(buttons[i].id);
@@ -139,7 +173,7 @@ function addDetails(){
             detailWebSite.innerHTML = Identity[index-1].website;
         }, false);
     }
-
+*/
 
 
 
