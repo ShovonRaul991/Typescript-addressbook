@@ -10,7 +10,8 @@ let inputform = document.getElementById("input-form-hidden") as HTMLElement;
 let addressview = document.getElementById("view-details") as HTMLElement;
 let form = document.getElementById('form-id') as HTMLFormElement;
 let inputs = document.getElementsByTagName('input');
-let contactlist = document.getElementById('contact-list-items') as HTMLElement;
+let contactlist = document.getElementById('contact-list-items') as HTMLElement;   //
+// let contactlistItems = document.querySelectorAll('.contact-list-items') as any;
 let nameHeader = document.getElementById('Person-Name') as HTMLElement;
 let viewDetailsBody = document.getElementById("view-details-body") as HTMLElement;
 let detailEmail = document.getElementById('detail-email-value') as HTMLSpanElement
@@ -18,8 +19,11 @@ let detailMobile = document.getElementById('detail-mobile-value') as HTMLSpanEle
 let detailLandline = document.getElementById('detail-landline-value') as HTMLSpanElement;
 let detailWebSite = document.getElementById('detail-site-value') as HTMLSpanElement;
 let detailAddress = document.getElementById('detail-address-value') as HTMLSpanElement;
-let human1 = document.getElementById('1') as HTMLElement;
+let human1 = document.getElementById('1') as HTMLDivElement;
 let personInAddressbook  = document.querySelector('.contact-list-item') as HTMLDivElement;
+let editButton = document.getElementById('edit') as HTMLButtonElement;
+let deleteButton = document.getElementById('delete') as HTMLButtonElement;
+let editInput = document.getElementById('editButton') as HTMLInputElement;
 
 class person{
     
@@ -53,6 +57,7 @@ detailLandline.innerHTML = String(person1.landline);
 detailAddress.innerHTML = person1.address;
 detailWebSite.innerHTML = person1.website;
 
+
 /*
 personInAddressbook.addEventListener('click', function(){
     nameHeader.innerHTML = Identity[Number(personInAddressbook.id)-1].name;
@@ -72,15 +77,15 @@ function creatingContact(){
         contact.setAttribute('id',String(count)) 
 
         const nameValue = document.createElement('p')
-        nameValue.setAttribute('class','name')
+        nameValue.setAttribute('id','name')
         nameValue.innerHTML = human.name;
         
         const emailValue = document.createElement('p');
-        emailValue.setAttribute('class','email');
+        emailValue.setAttribute('id','email');
         emailValue.innerHTML = human.email;
 
         const mobileValue = document.createElement('p')
-        mobileValue.setAttribute('class','mobile');
+        mobileValue.setAttribute('id','mobile');
         mobileValue.innerHTML = String(human.mobile);
         
         contact.appendChild(nameValue);
@@ -91,13 +96,62 @@ function creatingContact(){
         count++;
         
         contact.addEventListener('click', function(){
-            nameHeader.innerHTML = human.name;
-            detailEmail.innerHTML = human.email;
-            detailMobile.innerHTML = String(human.mobile);
-            detailLandline.innerHTML = String(human.landline);
-            detailAddress.innerHTML = human.address;
-            detailWebSite.innerHTML = human.website;
+            let idofPerson = contact.id;
+            // for(let i =0;i<contactlist)
+            /*
+            for(let i=0;i<contactlist.children.length;i++)
+            (<any>contactlist.children[i]).style.backgroundColor='white';
+            */
+            contact.style.backgroundColor = '#CEE7F2';
+
+            nameHeader.innerHTML = Identity[Number(contact.id)-1].name;
+            detailEmail.innerHTML = Identity[Number(contact.id)-1].email;
+            detailMobile.innerHTML = String(Identity[Number(contact.id)-1].mobile);
+            detailLandline.innerHTML = String(Identity[Number(contact.id)-1].landline);
+            detailAddress.innerHTML = Identity[Number(contact.id)-1].address;
+            detailWebSite.innerHTML = Identity[Number(contact.id)-1].website;
+
+            editButton.addEventListener('click',function(){
+                openInputForm();
+                //form.reset();
+                editInput.style.display = 'block';
+                addButton.style.display = 'none';
+                personName.value = Identity[Number(idofPerson)-1].name;
+                personEmail.value = Identity[Number(idofPerson)-1].email;
+                personMobile.value = String(Identity[Number(idofPerson)-1].mobile);
+                personLandline.value = String(Identity[Number(idofPerson)-1].landline);
+                personWebsite.value = Identity[Number(idofPerson)-1].website;
+                personAddress.value = Identity[Number(idofPerson)-1].address;
+            })
+
+            editInput.addEventListener('click',function(){
+                Identity[Number(idofPerson)-1].name  = personName.value;
+                Identity[Number(idofPerson)-1].email  = personEmail.value;
+                Identity[Number(idofPerson)-1].mobile = Number(personMobile.value);
+                Identity[Number(idofPerson)-1].landline = Number(personLandline.value);
+                Identity[Number(idofPerson)-1].website= personWebsite.value;
+                Identity[Number(idofPerson)-1].address = personAddress.value;
+
+                
+                nameValue.innerHTML = personName.value;
+                emailValue.innerHTML = personEmail.value;
+                mobileValue.innerHTML = String(personMobile.value);
+
+                nameHeader.innerHTML = personName.value;
+                detailEmail.innerHTML = personEmail.value;
+                detailMobile.innerHTML = String(personMobile.value);
+                detailLandline.innerHTML = String(personLandline.value);
+                detailAddress.innerHTML = personAddress.value;
+                detailWebSite.innerHTML = personWebsite.value;
+
+                inputform.style.display = 'none';
+                addressview.style.display = 'block';
+                
+            })
+            
         })
+
+        
 
 
     })
@@ -146,16 +200,54 @@ function addDetails(){
             detailLandline.innerHTML = String(Identity[Number(contact.id)-1].landline);
             detailAddress.innerHTML = Identity[Number(contact.id)-1].address;
             detailWebSite.innerHTML = Identity[Number(contact.id)-1].website;
+
+            let idofPerson = contact.id;
+            editButton.addEventListener('click',function(){
+                openInputForm();
+                editInput.style.display = 'block';
+                addButton.style.display = 'none';
+                personName.value = Identity[Number(idofPerson)-1].name;
+                personEmail.value = Identity[Number(idofPerson)-1].email;
+                personMobile.value = String(Identity[Number(idofPerson)-1].mobile);
+                personLandline.value = String(Identity[Number(idofPerson)-1].landline);
+                personWebsite.value = Identity[Number(idofPerson)-1].website;
+                personAddress.value = Identity[Number(idofPerson)-1].address;
+            })
+            editInput.addEventListener('click',function(){
+                Identity[Number(idofPerson)-1].name  = personName.value;
+                Identity[Number(idofPerson)-1].email  = personEmail.value;
+                Identity[Number(idofPerson)-1].mobile = Number(personMobile.value);
+                Identity[Number(idofPerson)-1].landline = Number(personLandline.value);
+                Identity[Number(idofPerson)-1].website= personWebsite.value;
+                Identity[Number(idofPerson)-1].address = personAddress.value;
+
+                
+                nameValue.innerHTML = personName.value;
+                emailValue.innerHTML = personEmail.value;
+                mobileValue.innerHTML = String(personMobile.value);
+
+                nameHeader.innerHTML = personName.value;
+                detailEmail.innerHTML = personEmail.value;
+                detailMobile.innerHTML = String(personMobile.value);
+                detailLandline.innerHTML = String(personLandline.value);
+                detailAddress.innerHTML = personAddress.value;
+                detailWebSite.innerHTML = personWebsite.value;
+                
+                inputform.style.display = 'none';
+                addressview.style.display = 'block';
+                
+                
+            })
         })
         
     }
+
 
     //creatingContact();
     inputform.style.display = 'none';
     addressview.style.display = 'block';
     form.reset();
 }
-
 
 
 
@@ -184,3 +276,4 @@ function goBacktoHome(){
     form.reset();
     
 }
+

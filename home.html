@@ -54,10 +54,10 @@
             <div class="view-details-header">
                 <p id="Person-Name" class="Person-Name"></p>
                 <div class="icons">
-                    <label for=""><img class="icon-edit" src="edit1.jpg">Edit</label>
-                    <input type="button" id="edit" value="edit">
-                    <label for=""><img class="icon-delete" src="delete2.png">Delete</label>
-                    <input type="button" id="delete" value="edit">
+                    <img class="icon-edit" src="edit1.jpg">
+                    <button id="edit" value="edit">Edit</button>
+                    <img class="icon-delete" src="delete2.png">
+                    <button id="delete" value="delete">delete</button>
                 </div>
             </div>
             <div class="view-details-body" id="view-details-body">
@@ -93,7 +93,8 @@
                 <textarea name="" id="AddressEntry"></textarea>
             
             <div class="submit-button">
-                <input type="submit" name="Add" id="submitButton" value="Add" onclick="return addDetails()">
+                <input type="button" name="Add" id="submitButton" value="Add" onclick="return addDetails()">
+                <input type="button" name="Edit" id="editButton" value="Edit">
             </div>
         </form>
        </div>

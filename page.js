@@ -11,7 +11,8 @@ let inputform = document.getElementById("input-form-hidden");
 let addressview = document.getElementById("view-details");
 let form = document.getElementById('form-id');
 let inputs = document.getElementsByTagName('input');
-let contactlist = document.getElementById('contact-list-items');
+let contactlist = document.getElementById('contact-list-items'); //
+// let contactlistItems = document.querySelectorAll('.contact-list-items') as any;
 let nameHeader = document.getElementById('Person-Name');
 let viewDetailsBody = document.getElementById("view-details-body");
 let detailEmail = document.getElementById('detail-email-value');
@@ -21,6 +22,9 @@ let detailWebSite = document.getElementById('detail-site-value');
 let detailAddress = document.getElementById('detail-address-value');
 let human1 = document.getElementById('1');
 let personInAddressbook = document.querySelector('.contact-list-item');
+let editButton = document.getElementById('edit');
+let deleteButton = document.getElementById('delete');
+let editInput = document.getElementById('editButton');
 class person {
     constructor(name, email, mobile, landline, website, address) {
         this.name = name;
@@ -58,13 +62,13 @@ function creatingContact() {
         contact.setAttribute('class', 'contact-list-item');
         contact.setAttribute('id', String(count));
         const nameValue = document.createElement('p');
-        nameValue.setAttribute('class', 'name');
+        nameValue.setAttribute('id', 'name');
         nameValue.innerHTML = human.name;
         const emailValue = document.createElement('p');
-        emailValue.setAttribute('class', 'email');
+        emailValue.setAttribute('id', 'email');
         emailValue.innerHTML = human.email;
         const mobileValue = document.createElement('p');
-        mobileValue.setAttribute('class', 'mobile');
+        mobileValue.setAttribute('id', 'mobile');
         mobileValue.innerHTML = String(human.mobile);
         contact.appendChild(nameValue);
         contact.appendChild(emailValue);
@@ -72,12 +76,50 @@ function creatingContact() {
         contactlist.appendChild(contact);
         count++;
         contact.addEventListener('click', function () {
-            nameHeader.innerHTML = human.name;
-            detailEmail.innerHTML = human.email;
-            detailMobile.innerHTML = String(human.mobile);
-            detailLandline.innerHTML = String(human.landline);
-            detailAddress.innerHTML = human.address;
-            detailWebSite.innerHTML = human.website;
+            let idofPerson = contact.id;
+            // for(let i =0;i<contactlist)
+            /*
+            for(let i=0;i<contactlist.children.length;i++)
+            (<any>contactlist.children[i]).style.backgroundColor='white';
+            */
+            contact.style.backgroundColor = '#CEE7F2';
+            nameHeader.innerHTML = Identity[Number(contact.id) - 1].name;
+            detailEmail.innerHTML = Identity[Number(contact.id) - 1].email;
+            detailMobile.innerHTML = String(Identity[Number(contact.id) - 1].mobile);
+            detailLandline.innerHTML = String(Identity[Number(contact.id) - 1].landline);
+            detailAddress.innerHTML = Identity[Number(contact.id) - 1].address;
+            detailWebSite.innerHTML = Identity[Number(contact.id) - 1].website;
+            editButton.addEventListener('click', function () {
+                openInputForm();
+                //form.reset();
+                editInput.style.display = 'block';
+                addButton.style.display = 'none';
+                personName.value = Identity[Number(idofPerson) - 1].name;
+                personEmail.value = Identity[Number(idofPerson) - 1].email;
+                personMobile.value = String(Identity[Number(idofPerson) - 1].mobile);
+                personLandline.value = String(Identity[Number(idofPerson) - 1].landline);
+                personWebsite.value = Identity[Number(idofPerson) - 1].website;
+                personAddress.value = Identity[Number(idofPerson) - 1].address;
+            });
+            editInput.addEventListener('click', function () {
+                Identity[Number(idofPerson) - 1].name = personName.value;
+                Identity[Number(idofPerson) - 1].email = personEmail.value;
+                Identity[Number(idofPerson) - 1].mobile = Number(personMobile.value);
+                Identity[Number(idofPerson) - 1].landline = Number(personLandline.value);
+                Identity[Number(idofPerson) - 1].website = personWebsite.value;
+                Identity[Number(idofPerson) - 1].address = personAddress.value;
+                nameValue.innerHTML = personName.value;
+                emailValue.innerHTML = personEmail.value;
+                mobileValue.innerHTML = String(personMobile.value);
+                nameHeader.innerHTML = personName.value;
+                detailEmail.innerHTML = personEmail.value;
+                detailMobile.innerHTML = String(personMobile.value);
+                detailLandline.innerHTML = String(personLandline.value);
+                detailAddress.innerHTML = personAddress.value;
+                detailWebSite.innerHTML = personWebsite.value;
+                inputform.style.display = 'none';
+                addressview.style.display = 'block';
+            });
         });
     });
 }
@@ -112,6 +154,37 @@ function addDetails() {
             detailLandline.innerHTML = String(Identity[Number(contact.id) - 1].landline);
             detailAddress.innerHTML = Identity[Number(contact.id) - 1].address;
             detailWebSite.innerHTML = Identity[Number(contact.id) - 1].website;
+            let idofPerson = contact.id;
+            editButton.addEventListener('click', function () {
+                openInputForm();
+                editInput.style.display = 'block';
+                addButton.style.display = 'none';
+                personName.value = Identity[Number(idofPerson) - 1].name;
+                personEmail.value = Identity[Number(idofPerson) - 1].email;
+                personMobile.value = String(Identity[Number(idofPerson) - 1].mobile);
+                personLandline.value = String(Identity[Number(idofPerson) - 1].landline);
+                personWebsite.value = Identity[Number(idofPerson) - 1].website;
+                personAddress.value = Identity[Number(idofPerson) - 1].address;
+            });
+            editInput.addEventListener('click', function () {
+                Identity[Number(idofPerson) - 1].name = personName.value;
+                Identity[Number(idofPerson) - 1].email = personEmail.value;
+                Identity[Number(idofPerson) - 1].mobile = Number(personMobile.value);
+                Identity[Number(idofPerson) - 1].landline = Number(personLandline.value);
+                Identity[Number(idofPerson) - 1].website = personWebsite.value;
+                Identity[Number(idofPerson) - 1].address = personAddress.value;
+                nameValue.innerHTML = personName.value;
+                emailValue.innerHTML = personEmail.value;
+                mobileValue.innerHTML = String(personMobile.value);
+                nameHeader.innerHTML = personName.value;
+                detailEmail.innerHTML = personEmail.value;
+                detailMobile.innerHTML = String(personMobile.value);
+                detailLandline.innerHTML = String(personLandline.value);
+                detailAddress.innerHTML = personAddress.value;
+                detailWebSite.innerHTML = personWebsite.value;
+                inputform.style.display = 'none';
+                addressview.style.display = 'block';
+            });
         });
     }
     //creatingContact();
