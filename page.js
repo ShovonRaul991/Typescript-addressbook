@@ -1,5 +1,5 @@
 "use strict";
-var _a, _b, _c, _d;
+var _a, _b, _c, _d, _e;
 class Person {
     constructor(name, email, mobile, landline, website, address) {
         this.name = name;
@@ -11,7 +11,7 @@ class Person {
     }
 }
 let selectedAddress, totalSelectedAddress;
-let validName = false, validEmail = false, validMobile = false;
+let validName = false, validEmail = false, validMobile = false, validLandline = false;
 let addressBook = []; //empty array to store all the objects
 //const person1 = new Person('Chandermani Arora','Chandermani@technovert.com',9192929292922,2334567890,'www.technovert.com','abc streat, some road, madhapur, hyderabad-500033');
 //const person2 = new Person('Sash Pagadala','Chandermani@technovert.com',9192923452922,233456789,'www.keka.com','abc streat, some road, rajpur, hyderabad-500133');
@@ -23,6 +23,7 @@ function creatingContact(name, email, mobile, landline, website, address) {
     let addresslist = document.getElementById('ContactListItems');
     let addressItem = document.createElement('div');
     addressItem.setAttribute('class', 'contact-list-item');
+    addressItem.setAttribute('id', addressBook.length);
     let contactName = document.createElement('p');
     contactName.setAttribute('class', 'contact-name');
     contactName.innerText = personObj.name;
@@ -31,7 +32,7 @@ function creatingContact(name, email, mobile, landline, website, address) {
     contactEmail.innerText = personObj.email;
     let contactMobile = document.createElement('p');
     contactMobile.setAttribute('class', 'contact-mobile');
-    contactMobile.innerText = personObj.mobile;
+    contactMobile.innerText = '+91 ' + personObj.mobile;
     addressItem.appendChild(contactName);
     addressItem.appendChild(contactEmail);
     addressItem.appendChild(contactMobile);
@@ -62,7 +63,7 @@ function creatingContact(name, email, mobile, landline, website, address) {
             saveBtn.style.display = 'block';
             document.getElementById('NameEntry').value = personObj.name;
             document.getElementById('EmailEntry').value = personObj.email;
-            document.getElementById('MobileEntry').value = '+91 ' + String(personObj.mobile);
+            document.getElementById('MobileEntry').value = String(personObj.mobile);
             document.getElementById('LandlineEntry').value = String(personObj.landline);
             document.getElementById('WebsiteEntry').value = personObj.website;
             document.getElementById('AddressEntry').value = personObj.address;
@@ -75,11 +76,11 @@ function showDetails(obj) {
     let _email = document.getElementById('DetailEmail');
     _email.innerText = "Email: " + obj.email;
     let _mobile = document.getElementById('DetailMobile');
-    _mobile.innerText = "Mobile: " + obj.mobile;
+    _mobile.innerText = "Mobile: " + '+91 ' + obj.mobile;
     let _landline = document.getElementById('DetailLandline');
     _landline.innerText = "Landline: " + obj.landline;
     let _website = document.getElementById('DetailSite');
-    _website.innerText = "Website: " + obj.website;
+    _website.innerText = "Website: " + 'https://' + obj.website;
     let _address = document.getElementById('DetailAddress');
     _address.innerText = "Address: " + obj.address;
 }
@@ -123,25 +124,35 @@ document.getElementById('EmailEntry').addEventListener('keyup', function () {
         }
     }
 });
-/*
-(document.getElementById('MobileEntry') as HTMLInputElement).addEventListener('keyup',function(){
+document.getElementById('MobileEntry').addEventListener('keyup', function () {
     validMobile = false;
-    let tempMobile: any = (document.getElementById('MobileENtry') as HTMLInputElement).value;
-    if(tempMobile.length==0){
-        (document.getElementById('RequiredMobile') as HTMLDivElement).innerHTML = 'Mobile Number is required';
+    let tempMobile = document.getElementById('MobileEntry').value;
+    if (tempMobile.length == 0) {
+        document.getElementById('RequiredMobile').innerHTML = 'Mobile Number is required';
     }
-    else if(tempMobile.length>0){
-        
-            (document.getElementById('RequiredMobile') as HTMLDivElement).innerHTML = 'Mobile Number is incorrect';
-        }
-    else{
-        (document.getElementById('RequiredMobile') as HTMLDivElement).innerHTML = '';
+    else if (tempMobile.length != 10 || (Number(tempMobile) % 1) != 0) {
+        document.getElementById('RequiredMobile').innerHTML = 'Mobile Number is incorrect';
     }
-
+    else {
+        document.getElementById('RequiredMobile').innerHTML = '';
+        validMobile = true;
+    }
 });
-*/
+document.getElementById('LandlineEntry').addEventListener('keyup', function () {
+    validLandline = false;
+    let tempLandline = document.getElementById('LandlineEntry').value;
+    if (tempLandline.length == 0) {
+        document.getElementById('RequiredLandline').innerHTML = 'Landline is required';
+    }
+    else if (tempLandline.length != 10 || (Number(tempLandline) % 1) != 0) {
+        document.getElementById('RequiredLandline').innerHTML = 'Landline is incorrect';
+    }
+    else {
+        document.getElementById('RequiredLandline').innerHTML = '';
+    }
+});
 (_b = document.getElementById('SubmitButton')) === null || _b === void 0 ? void 0 : _b.addEventListener('click', function () {
-    if (validName && validEmail) {
+    if (validName && validEmail && validMobile) {
         let enteredName = document.getElementById('NameEntry').value;
         let enteredEmail = document.getElementById('EmailEntry').value;
         let enterdedMobile = Number(document.getElementById('MobileEntry').value);
@@ -159,27 +170,32 @@ document.getElementById('EmailEntry').addEventListener('keyup', function () {
 (_c = document.getElementById('EditButton')) === null || _c === void 0 ? void 0 : _c.addEventListener('click', function () {
     document.getElementById('EditButton').style.display = 'block';
     document.getElementById('SubmitButton').style.display = 'None';
-    if (validName && validEmail) {
+    if (validName && validEmail && validMobile) {
+        let personId = addressBook.indexOf(totalSelectedAddress);
         selectedAddress.querySelectorAll('p').forEach(function (element, index) {
             if (index == 0) {
                 element.innerText = document.getElementById('NameEntry').value;
                 totalSelectedAddress.name = element.innerText;
+                addressBook[personId].name = element.innerText;
             }
             else if (index == 1) {
                 element.innerText = document.getElementById('EmailEntry').value;
-                totalSelectedAddress.phone = element.innerText;
+                totalSelectedAddress.email = element.innerText;
+                addressBook[personId].email = element.innerText;
             }
             else if (index == 2) {
-                element.innerText = Number(document.getElementById('MobileEntry').value);
-                totalSelectedAddress.phone = element.innerText;
+                element.innerText = '+91 ' + (document.getElementById('MobileEntry').value);
+                totalSelectedAddress.mobile = element.innerText;
+                addressBook[personId].mobile = Number(element.innerText.split(' ').pop());
             }
-            totalSelectedAddress.landline = Number(document.getElementById('LandlineEntry').value);
-            totalSelectedAddress.website = document.getElementById('WebsiteEntry').value;
-            totalSelectedAddress.address = document.getElementById('AddressEntry').value;
+            totalSelectedAddress.landline = addressBook[personId].landline = Number(document.getElementById('LandlineEntry').value);
+            totalSelectedAddress.website = addressBook[personId].website = document.getElementById('WebsiteEntry').value;
+            totalSelectedAddress.address = addressBook[personId].address = document.getElementById('AddressEntry').value;
         });
         alert('saved changes succesfully');
         document.getElementById('Formid').reset();
         document.getElementById('InputForm').style.display = 'None';
+        //(document.getElementById('ViewDetails') as HTMLDivElement).style.display = 'block';
     }
     else {
         alert('Please fill the form properly');
@@ -190,6 +206,10 @@ document.getElementById('EmailEntry').addEventListener('keyup', function () {
     addressBook.splice(id, 1);
     let contactList = document.getElementById('ContactListItems');
     contactList.removeChild(selectedAddress);
+    let addressDetails = document.getElementById('ViewDetails');
+    addressDetails.style.display = 'none';
+});
+(_e = document.getElementById('Home')) === null || _e === void 0 ? void 0 : _e.addEventListener('click', function () {
     let addressDetails = document.getElementById('ViewDetails');
     addressDetails.style.display = 'none';
 });
