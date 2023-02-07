@@ -1,31 +1,6 @@
 "use strict";
-let addNav = document.querySelector('.AddAddress');
-let addButton = document.querySelector('#submitButton');
-let personName = document.getElementById("NameEntry");
-let personEmail = document.getElementById("EmailEntry");
-let personMobile = document.getElementById('MobileEntry');
-let personLandline = document.getElementById("LandlineEntry");
-let personWebsite = document.getElementById("WebsiteEntry");
-let personAddress = document.getElementById("AddressEntry");
-let inputform = document.getElementById("input-form-hidden");
-let addressview = document.getElementById("view-details");
-let form = document.getElementById('form-id');
-let inputs = document.getElementsByTagName('input');
-let contactlist = document.getElementById('contact-list-items'); //
-// let contactlistItems = document.querySelectorAll('.contact-list-items') as any;
-let nameHeader = document.getElementById('Person-Name');
-let viewDetailsBody = document.getElementById("view-details-body");
-let detailEmail = document.getElementById('detail-email-value');
-let detailMobile = document.getElementById('detail-mobile-value');
-let detailLandline = document.getElementById('detail-landline-value');
-let detailWebSite = document.getElementById('detail-site-value');
-let detailAddress = document.getElementById('detail-address-value');
-let human1 = document.getElementById('1');
-let personInAddressbook = document.querySelector('.contact-list-item');
-let editButton = document.getElementById('edit');
-let deleteButton = document.getElementById('delete');
-let editInput = document.getElementById('editButton');
-class person {
+var _a, _b, _c, _d;
+class Person {
     constructor(name, email, mobile, landline, website, address) {
         this.name = name;
         this.email = email;
@@ -35,180 +10,186 @@ class person {
         this.address = address;
     }
 }
-let Identity = []; //empty array to store all the objects
-const person1 = new person('Chandermani Arora', 'Chandermani@technovert.com', 9192929292922, 2334567890, 'www.technovert.com', 'abc streat, some road, madhapur, hyderabad-500033');
-const person2 = new person('Sash Pagadala', 'Chandermani@technovert.com', 9192923452922, 233456789, 'www.keka.com', 'abc streat, some road, rajpur, hyderabad-500133');
-Identity = [person1, person2];
-nameHeader.innerHTML = person1.name;
-detailEmail.innerHTML = person1.email;
-detailMobile.innerHTML = String(person1.mobile);
-detailLandline.innerHTML = String(person1.landline);
-detailAddress.innerHTML = person1.address;
-detailWebSite.innerHTML = person1.website;
-/*
-personInAddressbook.addEventListener('click', function(){
-    nameHeader.innerHTML = Identity[Number(personInAddressbook.id)-1].name;
-    detailEmail.innerHTML = Identity[Number(personInAddressbook.id)-1].email;
-    detailMobile.innerHTML = String(Identity[Number(personInAddressbook.id)-1].mobile);
-    detailLandline.innerHTML = String(Identity[Number(personInAddressbook.id)-1].landline);
-    detailAddress.innerHTML = Identity[Number(personInAddressbook.id)-1].address;
-    detailWebSite.innerHTML = Identity[Number(personInAddressbook.id)-1].website;
-})
-*/
-function creatingContact() {
-    let count = 1;
-    Identity.forEach(human => {
-        const contact = document.createElement('div');
-        contact.setAttribute('class', 'contact-list-item');
-        contact.setAttribute('id', String(count));
-        const nameValue = document.createElement('p');
-        nameValue.setAttribute('id', 'name');
-        nameValue.innerHTML = human.name;
-        const emailValue = document.createElement('p');
-        emailValue.setAttribute('id', 'email');
-        emailValue.innerHTML = human.email;
-        const mobileValue = document.createElement('p');
-        mobileValue.setAttribute('id', 'mobile');
-        mobileValue.innerHTML = String(human.mobile);
-        contact.appendChild(nameValue);
-        contact.appendChild(emailValue);
-        contact.appendChild(mobileValue);
-        contactlist.appendChild(contact);
-        count++;
-        contact.addEventListener('click', function () {
-            let idofPerson = contact.id;
-            // for(let i =0;i<contactlist)
-            /*
-            for(let i=0;i<contactlist.children.length;i++)
-            (<any>contactlist.children[i]).style.backgroundColor='white';
-            */
-            contact.style.backgroundColor = '#CEE7F2';
-            nameHeader.innerHTML = Identity[Number(contact.id) - 1].name;
-            detailEmail.innerHTML = Identity[Number(contact.id) - 1].email;
-            detailMobile.innerHTML = String(Identity[Number(contact.id) - 1].mobile);
-            detailLandline.innerHTML = String(Identity[Number(contact.id) - 1].landline);
-            detailAddress.innerHTML = Identity[Number(contact.id) - 1].address;
-            detailWebSite.innerHTML = Identity[Number(contact.id) - 1].website;
-            editButton.addEventListener('click', function () {
-                openInputForm();
-                //form.reset();
-                editInput.style.display = 'block';
-                addButton.style.display = 'none';
-                personName.value = Identity[Number(idofPerson) - 1].name;
-                personEmail.value = Identity[Number(idofPerson) - 1].email;
-                personMobile.value = String(Identity[Number(idofPerson) - 1].mobile);
-                personLandline.value = String(Identity[Number(idofPerson) - 1].landline);
-                personWebsite.value = Identity[Number(idofPerson) - 1].website;
-                personAddress.value = Identity[Number(idofPerson) - 1].address;
-            });
-            editInput.addEventListener('click', function () {
-                Identity[Number(idofPerson) - 1].name = personName.value;
-                Identity[Number(idofPerson) - 1].email = personEmail.value;
-                Identity[Number(idofPerson) - 1].mobile = Number(personMobile.value);
-                Identity[Number(idofPerson) - 1].landline = Number(personLandline.value);
-                Identity[Number(idofPerson) - 1].website = personWebsite.value;
-                Identity[Number(idofPerson) - 1].address = personAddress.value;
-                nameValue.innerHTML = personName.value;
-                emailValue.innerHTML = personEmail.value;
-                mobileValue.innerHTML = String(personMobile.value);
-                nameHeader.innerHTML = personName.value;
-                detailEmail.innerHTML = personEmail.value;
-                detailMobile.innerHTML = String(personMobile.value);
-                detailLandline.innerHTML = String(personLandline.value);
-                detailAddress.innerHTML = personAddress.value;
-                detailWebSite.innerHTML = personWebsite.value;
-                inputform.style.display = 'none';
-                addressview.style.display = 'block';
-            });
+let selectedAddress, totalSelectedAddress;
+let validName = false, validEmail = false, validMobile = false;
+let addressBook = []; //empty array to store all the objects
+//const person1 = new Person('Chandermani Arora','Chandermani@technovert.com',9192929292922,2334567890,'www.technovert.com','abc streat, some road, madhapur, hyderabad-500033');
+//const person2 = new Person('Sash Pagadala','Chandermani@technovert.com',9192923452922,233456789,'www.keka.com','abc streat, some road, rajpur, hyderabad-500133');
+//addressBook = [person1,person2];
+function creatingContact(name, email, mobile, landline, website, address) {
+    let personObj = new Person(name, email, mobile, landline, website, address);
+    addressBook.push(personObj);
+    /* address div list creation */
+    let addresslist = document.getElementById('ContactListItems');
+    let addressItem = document.createElement('div');
+    addressItem.setAttribute('class', 'contact-list-item');
+    let contactName = document.createElement('p');
+    contactName.setAttribute('class', 'contact-name');
+    contactName.innerText = personObj.name;
+    let contactEmail = document.createElement('p');
+    contactEmail.setAttribute('class', 'contact-email');
+    contactEmail.innerText = personObj.email;
+    let contactMobile = document.createElement('p');
+    contactMobile.setAttribute('class', 'contact-mobile');
+    contactMobile.innerText = personObj.mobile;
+    addressItem.appendChild(contactName);
+    addressItem.appendChild(contactEmail);
+    addressItem.appendChild(contactMobile);
+    addresslist === null || addresslist === void 0 ? void 0 : addresslist.appendChild(addressItem);
+    /* selection working */
+    addressItem.addEventListener('click', function () {
+        var _a;
+        let allAddress = addresslist.children;
+        selectedAddress = addressItem;
+        for (let i = 0; i < allAddress.length; i++) {
+            allAddress[i].style.backgroundColor = 'white';
+        }
+        addressItem.style.backgroundColor = '#CEE7F2';
+        let addressDetails = document.getElementById('ViewDetails');
+        addressDetails.style.display = 'block';
+        let inputForm = document.getElementById('InputForm');
+        inputForm.style.display = 'None';
+        showDetails(personObj);
+        totalSelectedAddress = personObj;
+        (_a = document.querySelector('.icon-edit')) === null || _a === void 0 ? void 0 : _a.addEventListener('click', function () {
+            let addressDetails = document.getElementById('ViewDetails');
+            addressDetails.style.display = 'none';
+            let inputForm = document.getElementById('InputForm');
+            inputForm.style.display = 'block';
+            let addBtn = document.getElementById('SubmitButton');
+            addBtn.style.display = 'None';
+            let saveBtn = document.getElementById('EditButton');
+            saveBtn.style.display = 'block';
+            document.getElementById('NameEntry').value = personObj.name;
+            document.getElementById('EmailEntry').value = personObj.email;
+            document.getElementById('MobileEntry').value = '+91 ' + String(personObj.mobile);
+            document.getElementById('LandlineEntry').value = String(personObj.landline);
+            document.getElementById('WebsiteEntry').value = personObj.website;
+            document.getElementById('AddressEntry').value = personObj.address;
         });
     });
 }
-function openInputForm() {
-    addressview.style.display = 'none';
-    inputform.style.display = 'block';
+function showDetails(obj) {
+    let _name = document.getElementById('PersonName');
+    _name.innerText = obj.name;
+    let _email = document.getElementById('DetailEmail');
+    _email.innerText = "Email: " + obj.email;
+    let _mobile = document.getElementById('DetailMobile');
+    _mobile.innerText = "Mobile: " + obj.mobile;
+    let _landline = document.getElementById('DetailLandline');
+    _landline.innerText = "Landline: " + obj.landline;
+    let _website = document.getElementById('DetailSite');
+    _website.innerText = "Website: " + obj.website;
+    let _address = document.getElementById('DetailAddress');
+    _address.innerText = "Address: " + obj.address;
 }
-function addDetails() {
-    if (personName.value && personEmail.value && (Number(personMobile.value)) && (Number(personLandline.value)) && personWebsite.value && personAddress.value) {
-        Identity.push(new person(personName.value, personEmail.value, Number(personMobile.value), Number(personLandline.value), personWebsite.value, personAddress.value));
-        /* creating the list */
-        const contact = document.createElement('div');
-        contact.setAttribute('class', 'contact-list-item');
-        contact.setAttribute('id', String(Identity.length));
-        const nameValue = document.createElement('p');
-        nameValue.setAttribute('class', 'name');
-        nameValue.innerHTML = personName.value;
-        const emailValue = document.createElement('p');
-        emailValue.setAttribute('class', 'email');
-        emailValue.innerHTML = personEmail.value;
-        const mobileValue = document.createElement('p');
-        mobileValue.setAttribute('class', 'mobile');
-        mobileValue.innerHTML = personMobile.value;
-        contact.appendChild(nameValue);
-        contact.appendChild(emailValue);
-        contact.appendChild(mobileValue);
-        contactlist.appendChild(contact);
-        contact.addEventListener('click', function () {
-            nameHeader.innerHTML = Identity[Number(contact.id) - 1].name;
-            detailEmail.innerHTML = Identity[Number(contact.id) - 1].email;
-            detailMobile.innerHTML = String(Identity[Number(contact.id) - 1].mobile);
-            detailLandline.innerHTML = String(Identity[Number(contact.id) - 1].landline);
-            detailAddress.innerHTML = Identity[Number(contact.id) - 1].address;
-            detailWebSite.innerHTML = Identity[Number(contact.id) - 1].website;
-            let idofPerson = contact.id;
-            editButton.addEventListener('click', function () {
-                openInputForm();
-                editInput.style.display = 'block';
-                addButton.style.display = 'none';
-                personName.value = Identity[Number(idofPerson) - 1].name;
-                personEmail.value = Identity[Number(idofPerson) - 1].email;
-                personMobile.value = String(Identity[Number(idofPerson) - 1].mobile);
-                personLandline.value = String(Identity[Number(idofPerson) - 1].landline);
-                personWebsite.value = Identity[Number(idofPerson) - 1].website;
-                personAddress.value = Identity[Number(idofPerson) - 1].address;
-            });
-            editInput.addEventListener('click', function () {
-                Identity[Number(idofPerson) - 1].name = personName.value;
-                Identity[Number(idofPerson) - 1].email = personEmail.value;
-                Identity[Number(idofPerson) - 1].mobile = Number(personMobile.value);
-                Identity[Number(idofPerson) - 1].landline = Number(personLandline.value);
-                Identity[Number(idofPerson) - 1].website = personWebsite.value;
-                Identity[Number(idofPerson) - 1].address = personAddress.value;
-                nameValue.innerHTML = personName.value;
-                emailValue.innerHTML = personEmail.value;
-                mobileValue.innerHTML = String(personMobile.value);
-                nameHeader.innerHTML = personName.value;
-                detailEmail.innerHTML = personEmail.value;
-                detailMobile.innerHTML = String(personMobile.value);
-                detailLandline.innerHTML = String(personLandline.value);
-                detailAddress.innerHTML = personAddress.value;
-                detailWebSite.innerHTML = personWebsite.value;
-                inputform.style.display = 'none';
-                addressview.style.display = 'block';
-            });
-        });
+(_a = document.getElementById('AddAddress')) === null || _a === void 0 ? void 0 : _a.addEventListener('click', function () {
+    document.getElementById('Formid').reset();
+    let addressDetails = document.getElementById('ViewDetails');
+    addressDetails.style.display = 'none';
+    let inputForm = document.getElementById('InputForm');
+    inputForm.style.display = 'block';
+    let addBtn = document.getElementById('SubmitButton');
+    addBtn.style.display = 'block';
+    let saveBtn = document.getElementById('EditButton');
+    saveBtn.style.display = 'none';
+});
+/* form validation */
+document.getElementById('NameEntry').addEventListener('keyup', function () {
+    validName = false;
+    let tempName = document.getElementById('NameEntry').value;
+    if (tempName.length == 0) {
+        document.getElementById('RequiredName').innerHTML = 'Name is required';
     }
-    //creatingContact();
-    inputform.style.display = 'none';
-    addressview.style.display = 'block';
-    form.reset();
-}
+    else if (tempName.length > 0) {
+        document.getElementById('RequiredName').innerHTML = '';
+        validName = true;
+    }
+});
+document.getElementById('EmailEntry').addEventListener('keyup', function () {
+    validEmail = false;
+    let tempEmail = document.getElementById('EmailEntry').value;
+    if (tempEmail.length === 0) {
+        document.getElementById('RequiredEmail').innerHTML = 'Email is required';
+    }
+    else if (tempEmail.length > 0) {
+        let valideMail = /^[0-9a-z.\s+_]+@[0-9a-z-.+]+\.[a-z]{2,4}$/;
+        if (tempEmail.match(valideMail)) {
+            document.getElementById('RequiredEmail').innerHTML = '';
+            validEmail = true;
+        }
+        else {
+            document.getElementById('RequiredEmail').innerHTML = 'Email is incorrect';
+        }
+    }
+});
 /*
-    for(let i =0;i<buttons.length;i++){
-        buttons[i].addEventListener('click',function(){
-            let index = Number(buttons[i].id);
-            //console.log(Identity[index-1].name);
-            nameHeader.innerHTML = Identity[index-1].name;
-            detailEmail.innerHTML = Identity[index-1].email;
-            detailMobile.innerHTML = String(Identity[index-1].mobile);
-            detailLandline.innerHTML = String(Identity[index-1].landline);
-            detailAddress.innerHTML = Identity[index-1].address;
-            detailWebSite.innerHTML = Identity[index-1].website;
-        }, false);
+(document.getElementById('MobileEntry') as HTMLInputElement).addEventListener('keyup',function(){
+    validMobile = false;
+    let tempMobile: any = (document.getElementById('MobileENtry') as HTMLInputElement).value;
+    if(tempMobile.length==0){
+        (document.getElementById('RequiredMobile') as HTMLDivElement).innerHTML = 'Mobile Number is required';
     }
+    else if(tempMobile.length>0){
+        
+            (document.getElementById('RequiredMobile') as HTMLDivElement).innerHTML = 'Mobile Number is incorrect';
+        }
+    else{
+        (document.getElementById('RequiredMobile') as HTMLDivElement).innerHTML = '';
+    }
+
+});
 */
-function goBacktoHome() {
-    inputform.style.display = 'none';
-    addressview.style.display = 'block';
-    human1.style.backgroundColor = '#CEE7F2';
-    form.reset();
-}
+(_b = document.getElementById('SubmitButton')) === null || _b === void 0 ? void 0 : _b.addEventListener('click', function () {
+    if (validName && validEmail) {
+        let enteredName = document.getElementById('NameEntry').value;
+        let enteredEmail = document.getElementById('EmailEntry').value;
+        let enterdedMobile = Number(document.getElementById('MobileEntry').value);
+        let enteredLandline = Number(document.getElementById('LandlineEntry').value);
+        let enteredWebsite = document.getElementById('WebsiteEntry').value;
+        let enteredAddress = document.getElementById('AddressEntry').value;
+        creatingContact(enteredName, enteredEmail, enterdedMobile, enteredLandline, enteredWebsite, enteredAddress);
+        alert('Address added successfully!!!');
+        document.getElementById('InputForm').style.display = 'None';
+    }
+    else {
+        alert('Please fill the form properly');
+    }
+});
+(_c = document.getElementById('EditButton')) === null || _c === void 0 ? void 0 : _c.addEventListener('click', function () {
+    document.getElementById('EditButton').style.display = 'block';
+    document.getElementById('SubmitButton').style.display = 'None';
+    if (validName && validEmail) {
+        selectedAddress.querySelectorAll('p').forEach(function (element, index) {
+            if (index == 0) {
+                element.innerText = document.getElementById('NameEntry').value;
+                totalSelectedAddress.name = element.innerText;
+            }
+            else if (index == 1) {
+                element.innerText = document.getElementById('EmailEntry').value;
+                totalSelectedAddress.phone = element.innerText;
+            }
+            else if (index == 2) {
+                element.innerText = Number(document.getElementById('MobileEntry').value);
+                totalSelectedAddress.phone = element.innerText;
+            }
+            totalSelectedAddress.landline = Number(document.getElementById('LandlineEntry').value);
+            totalSelectedAddress.website = document.getElementById('WebsiteEntry').value;
+            totalSelectedAddress.address = document.getElementById('AddressEntry').value;
+        });
+        alert('saved changes succesfully');
+        document.getElementById('Formid').reset();
+        document.getElementById('InputForm').style.display = 'None';
+    }
+    else {
+        alert('Please fill the form properly');
+    }
+});
+(_d = document.querySelector('.icon-delete')) === null || _d === void 0 ? void 0 : _d.addEventListener('click', function () {
+    let id = addressBook.indexOf(totalSelectedAddress);
+    addressBook.splice(id, 1);
+    let contactList = document.getElementById('ContactListItems');
+    contactList.removeChild(selectedAddress);
+    let addressDetails = document.getElementById('ViewDetails');
+    addressDetails.style.display = 'none';
+});

@@ -94,14 +94,14 @@ body{
     border-bottom: 1px solid black;
 }
 
-#name,#email,#mobile{
+.contact-name,.contact-email,.contact-mobile{
     margin:0px;
     font-weight: 100;
 }
-#name{
-    font-size: 25px;
+.contact-name{
+    font-size: 35px;
 }
-#email,#mobile{
+.contact-email,.contact-mobile{
     font-size: 10px;
     
 }
@@ -112,41 +112,49 @@ body{
     width: 40%;
     margin: 20px;
     padding: 50px;
+    display: none;
 }
 .view-details-header{
-    display: flex;
-    justify-content: space-between;
-    font-size: 15px;
+    float: right;
+    display: block;
 }
-.Person-Name{
-    font-size: 30px;
-    width: fit-content;
+.icon-edit{
+    position: relative;
+      right: 80px;
+      
 }
-#edit, #delete{
-    
-    padding-right: 20px;
-    
-}
-
-
-.icon-edit,icon-delete{
-    height: 15px;
+.icon-edit img{
     width: 15px;
-    text-transform: uppercase;
+    height: 15px
 }
 .icon-delete{
     position: relative;
-    top:10px
+    bottom: 24px;
+}
+.icon-delete img{
+    width: 20px;
+    height: 20px;
+    position: relative;
+    top: 5px
+}
+.Person-Name{
+    font-size: 30px;
+    
+}
+.icon{
+    width:50px
 }
 .detail-email,.detail-landline,.detail-site{
     margin-bottom: 20px;
 }
 .detail-address{
+    width: 60%;
     display: flex;
 }
-.detail-address p{
-    margin: 0px;
-    padding-left: 5px;
+
+
+#required-name, #required-email, #required-mobile{
+    color: red;
 }
 
 @media screen and (max-width: 450px) {
@@ -193,7 +201,7 @@ body{
 .submit-button{
     float: right;
 }
-#submitButton,#editButton{
+#SubmitButton,#EditButton{
     background-color: green;
     border: 0px;
     padding: 5px 20px;
@@ -201,9 +209,14 @@ body{
     font-size: 10px;
     margin-left: 5px;
 }
-#editButton{
+#EditButton{
     display: none;
 }
+#RequiredName,#RequiredEmail,#RequiredMobile{
+    color: red;
+}
+
+
 
 
 
