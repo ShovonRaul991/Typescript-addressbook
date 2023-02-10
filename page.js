@@ -10,7 +10,22 @@ class Person {
         this.address = address;
     }
 }
-let selectedAddress, totalSelectedAddress;
+let addressDetails = document.getElementById('ViewDetails');
+let addresslist = document.getElementById('ContactListItems');
+let inputForm = document.getElementById('InputForm');
+let addBtn = document.getElementById('SubmitButton');
+let saveBtn = document.getElementById('EditButton');
+let entryName = document.getElementById('NameEntry');
+let entryEmail = document.getElementById('EmailEntry');
+let entryMobile = document.getElementById('MobileEntry');
+let entryLandline = document.getElementById('LandlineEntry');
+let entryWebsite = document.getElementById('WebsiteEntry');
+let entryAddress = document.getElementById('AddressEntry');
+let requiredName = document.getElementById('RequiredName');
+let requiredEmail = document.getElementById('RequiredEmail');
+let requiredMobile = document.getElementById('RequiredMobile');
+let requiredLandline = document.getElementById('RequiredLandline');
+let selectedAddress, selectedFullAddress;
 let validName = false, validEmail = false, validMobile = false, validLandline = false;
 let addressBook = []; //empty array to store all the objects
 //const person1 = new Person('Chandermani Arora','Chandermani@technovert.com',9192929292922,2334567890,'www.technovert.com','abc streat, some road, madhapur, hyderabad-500033');
@@ -20,7 +35,6 @@ function creatingContact(name, email, mobile, landline, website, address) {
     let personObj = new Person(name, email, mobile, landline, website, address);
     addressBook.push(personObj);
     /* address div list creation */
-    let addresslist = document.getElementById('ContactListItems');
     let addressItem = document.createElement('div');
     addressItem.setAttribute('class', 'contact-list-item');
     addressItem.setAttribute('id', addressBook.length);
@@ -37,6 +51,15 @@ function creatingContact(name, email, mobile, landline, website, address) {
     addressItem.appendChild(contactEmail);
     addressItem.appendChild(contactMobile);
     addresslist === null || addresslist === void 0 ? void 0 : addresslist.appendChild(addressItem);
+    let allAddress = addresslist.children;
+    for (let i = 0; i < allAddress.length; i++) {
+        allAddress[i].style.backgroundColor = 'white';
+        allAddress[i].style.overflowX = 'hidden';
+    }
+    addressItem.style.backgroundColor = '#CEE7F2';
+    //let addressDetails : any = document.getElementById('ViewDetails');
+    showDetails(addressBook[addressBook.length - 1]);
+    addressDetails.style.display = 'block';
     /* selection working */
     addressItem.addEventListener('click', function () {
         var _a;
@@ -44,29 +67,25 @@ function creatingContact(name, email, mobile, landline, website, address) {
         selectedAddress = addressItem;
         for (let i = 0; i < allAddress.length; i++) {
             allAddress[i].style.backgroundColor = 'white';
+            allAddress[i].style.overflowX = 'hidden';
         }
         addressItem.style.backgroundColor = '#CEE7F2';
-        let addressDetails = document.getElementById('ViewDetails');
+        makeScroll(addressItem);
         addressDetails.style.display = 'block';
-        let inputForm = document.getElementById('InputForm');
         inputForm.style.display = 'None';
         showDetails(personObj);
-        totalSelectedAddress = personObj;
+        selectedFullAddress = personObj;
         (_a = document.querySelector('.icon-edit')) === null || _a === void 0 ? void 0 : _a.addEventListener('click', function () {
-            let addressDetails = document.getElementById('ViewDetails');
             addressDetails.style.display = 'none';
-            let inputForm = document.getElementById('InputForm');
             inputForm.style.display = 'block';
-            let addBtn = document.getElementById('SubmitButton');
             addBtn.style.display = 'None';
-            let saveBtn = document.getElementById('EditButton');
             saveBtn.style.display = 'block';
-            document.getElementById('NameEntry').value = personObj.name;
-            document.getElementById('EmailEntry').value = personObj.email;
-            document.getElementById('MobileEntry').value = String(personObj.mobile);
-            document.getElementById('LandlineEntry').value = String(personObj.landline);
-            document.getElementById('WebsiteEntry').value = personObj.website;
-            document.getElementById('AddressEntry').value = personObj.address;
+            entryName.value = personObj.name;
+            entryEmail.value = personObj.email;
+            entryMobile.value = String(personObj.mobile);
+            entryLandline.value = String(personObj.landline);
+            entryWebsite.value = personObj.website;
+            entryAddress.value = personObj.address;
         });
     });
 }
@@ -86,79 +105,76 @@ function showDetails(obj) {
 }
 (_a = document.getElementById('AddAddress')) === null || _a === void 0 ? void 0 : _a.addEventListener('click', function () {
     document.getElementById('Formid').reset();
-    let addressDetails = document.getElementById('ViewDetails');
     addressDetails.style.display = 'none';
-    let inputForm = document.getElementById('InputForm');
     inputForm.style.display = 'block';
-    let addBtn = document.getElementById('SubmitButton');
     addBtn.style.display = 'block';
-    let saveBtn = document.getElementById('EditButton');
     saveBtn.style.display = 'none';
 });
 /* form validation */
-document.getElementById('NameEntry').addEventListener('keyup', function () {
+entryName.addEventListener('keyup', function () {
     validName = false;
-    let tempName = document.getElementById('NameEntry').value;
+    let tempName = entryName.value;
     if (tempName.length == 0) {
-        document.getElementById('RequiredName').innerHTML = 'Name is required';
+        requiredName.innerHTML = 'Name is required';
     }
     else if (tempName.length > 0) {
-        document.getElementById('RequiredName').innerHTML = '';
+        requiredName.innerHTML = '';
         validName = true;
     }
 });
-document.getElementById('EmailEntry').addEventListener('keyup', function () {
+entryEmail.addEventListener('keyup', function () {
     validEmail = false;
-    let tempEmail = document.getElementById('EmailEntry').value;
+    let tempEmail = entryEmail.value;
     if (tempEmail.length === 0) {
-        document.getElementById('RequiredEmail').innerHTML = 'Email is required';
+        requiredEmail.innerHTML = 'Email is required';
     }
     else if (tempEmail.length > 0) {
         let valideMail = /^[0-9a-z.\s+_]+@[0-9a-z-.+]+\.[a-z]{2,4}$/;
         if (tempEmail.match(valideMail)) {
-            document.getElementById('RequiredEmail').innerHTML = '';
+            requiredEmail.innerHTML = '';
             validEmail = true;
         }
         else {
-            document.getElementById('RequiredEmail').innerHTML = 'Email is incorrect';
+            requiredEmail.innerHTML = 'Email is incorrect';
         }
     }
 });
-document.getElementById('MobileEntry').addEventListener('keyup', function () {
+entryMobile.addEventListener('keyup', function () {
     validMobile = false;
-    let tempMobile = document.getElementById('MobileEntry').value;
+    let tempMobile = entryMobile.value;
     if (tempMobile.length == 0) {
-        document.getElementById('RequiredMobile').innerHTML = 'Mobile Number is required';
+        requiredMobile.innerHTML = 'Mobile Number is required';
     }
     else if (tempMobile.length != 10 || (Number(tempMobile) % 1) != 0) {
-        document.getElementById('RequiredMobile').innerHTML = 'Mobile Number is incorrect';
+        requiredMobile.innerHTML = 'Mobile Number is incorrect';
     }
     else {
-        document.getElementById('RequiredMobile').innerHTML = '';
+        requiredMobile.innerHTML = '';
         validMobile = true;
     }
 });
-document.getElementById('LandlineEntry').addEventListener('keyup', function () {
+entryLandline.addEventListener('keyup', function () {
     validLandline = false;
-    let tempLandline = document.getElementById('LandlineEntry').value;
+    let tempLandline = entryLandline.value;
     if (tempLandline.length == 0) {
-        document.getElementById('RequiredLandline').innerHTML = 'Landline is required';
+        requiredLandline.innerHTML = 'Landline is required';
     }
     else if (tempLandline.length != 10 || (Number(tempLandline) % 1) != 0) {
-        document.getElementById('RequiredLandline').innerHTML = 'Landline is incorrect';
+        requiredLandline.innerHTML = 'Landline is incorrect';
     }
     else {
-        document.getElementById('RequiredLandline').innerHTML = '';
+        requiredLandline.innerHTML = '';
+        validLandline = true;
     }
 });
 (_b = document.getElementById('SubmitButton')) === null || _b === void 0 ? void 0 : _b.addEventListener('click', function () {
-    if (validName && validEmail && validMobile) {
-        let enteredName = document.getElementById('NameEntry').value;
-        let enteredEmail = document.getElementById('EmailEntry').value;
-        let enterdedMobile = Number(document.getElementById('MobileEntry').value);
-        let enteredLandline = Number(document.getElementById('LandlineEntry').value);
-        let enteredWebsite = document.getElementById('WebsiteEntry').value;
-        let enteredAddress = document.getElementById('AddressEntry').value;
+    if (validName && validEmail && validMobile && validLandline) {
+        let enteredName = entryName.value;
+        let enteredEmail = entryEmail.value;
+        let enterdedMobile = Number(entryMobile.value);
+        let enteredLandline = Number((entryLandline).value);
+        let enteredWebsite = entryWebsite.value;
+        let enteredAddress = entryAddress.value;
         creatingContact(enteredName, enteredEmail, enterdedMobile, enteredLandline, enteredWebsite, enteredAddress);
         alert('Address added successfully!!!');
         document.getElementById('InputForm').style.display = 'None';
@@ -168,48 +184,75 @@ document.getElementById('LandlineEntry').addEventListener('keyup', function () {
     }
 });
 (_c = document.getElementById('EditButton')) === null || _c === void 0 ? void 0 : _c.addEventListener('click', function () {
-    document.getElementById('EditButton').style.display = 'block';
-    document.getElementById('SubmitButton').style.display = 'None';
-    if (validName && validEmail && validMobile) {
-        let personId = addressBook.indexOf(totalSelectedAddress);
+    saveBtn.style.display = 'block';
+    addBtn.style.display = 'None';
+    if (validName && validEmail && validMobile && validLandline) {
+        let personId = addressBook.indexOf(selectedFullAddress);
         selectedAddress.querySelectorAll('p').forEach(function (element, index) {
             if (index == 0) {
-                element.innerText = document.getElementById('NameEntry').value;
-                totalSelectedAddress.name = element.innerText;
+                element.innerText = entryName.value;
+                makeScroll(element);
+                selectedFullAddress.name = element.innerText;
                 addressBook[personId].name = element.innerText;
             }
             else if (index == 1) {
-                element.innerText = document.getElementById('EmailEntry').value;
-                totalSelectedAddress.email = element.innerText;
+                element.innerText = entryEmail.value;
+                makeScroll(element);
+                selectedFullAddress.email = element.innerText;
                 addressBook[personId].email = element.innerText;
             }
             else if (index == 2) {
-                element.innerText = '+91 ' + (document.getElementById('MobileEntry').value);
-                totalSelectedAddress.mobile = element.innerText;
+                element.innerText = '+91 ' + (entryMobile.value);
+                makeScroll(element);
+                selectedFullAddress.mobile = element.innerText;
                 addressBook[personId].mobile = Number(element.innerText.split(' ').pop());
             }
-            totalSelectedAddress.landline = addressBook[personId].landline = Number(document.getElementById('LandlineEntry').value);
-            totalSelectedAddress.website = addressBook[personId].website = document.getElementById('WebsiteEntry').value;
-            totalSelectedAddress.address = addressBook[personId].address = document.getElementById('AddressEntry').value;
+            selectedFullAddress.landline = addressBook[personId].landline = Number(entryLandline.value);
+            selectedFullAddress.website = addressBook[personId].website = entryWebsite.value;
+            selectedFullAddress.address = addressBook[personId].address = entryAddress.value;
         });
         alert('saved changes succesfully');
         document.getElementById('Formid').reset();
         document.getElementById('InputForm').style.display = 'None';
-        //(document.getElementById('ViewDetails') as HTMLDivElement).style.display = 'block';
+        showDetails(addressBook[personId]);
+        addressDetails.style.display = 'block';
     }
     else {
         alert('Please fill the form properly');
     }
 });
 (_d = document.querySelector('.icon-delete')) === null || _d === void 0 ? void 0 : _d.addEventListener('click', function () {
-    let id = addressBook.indexOf(totalSelectedAddress);
+    let id = addressBook.indexOf(selectedFullAddress);
     addressBook.splice(id, 1);
-    let contactList = document.getElementById('ContactListItems');
-    contactList.removeChild(selectedAddress);
-    let addressDetails = document.getElementById('ViewDetails');
-    addressDetails.style.display = 'none';
+    //let nextContact = contactList.nextSibling;
+    //nextContact.style.backgroundColor = '#CEE7F2';
+    let deletingNode = selectedAddress;
+    if (addressBook.length > 2) {
+        if (deletingNode.nextElementSibling) {
+            deletingNode.nextElementSibling.style.backgroundColor = '#CEE7F2';
+            showDetails(addressBook[id + 1]);
+            addressDetails.style.display = 'block';
+        }
+        if (deletingNode.nextElementSibling) {
+            deletingNode.nextElementSibling.style.backgroundColor = '#CEE7F2';
+            showDetails(addressBook[id - 1]);
+            addressDetails.style.display = 'block';
+        }
+    }
+    else {
+        addressDetails.style.display = 'None';
+    }
+    addresslist.removeChild(deletingNode);
 });
 (_e = document.getElementById('Home')) === null || _e === void 0 ? void 0 : _e.addEventListener('click', function () {
-    let addressDetails = document.getElementById('ViewDetails');
     addressDetails.style.display = 'none';
 });
+/* Extra functions added lastly after the feedback */
+function makeScroll(element) {
+    if (isOverflown(element)) {
+        selectedAddress.style.overflowX = "scroll";
+    }
+}
+function isOverflown(tempElement) {
+    return tempElement.scrollHeight > tempElement.clientHeight || tempElement.scrollWidth > tempElement.clientWidth;
+}
