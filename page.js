@@ -224,27 +224,26 @@ saveButton.addEventListener('click', function () {
 });
 function deleteContact() {
     let id = contactBook.indexOf(selectedContactDetails);
-    contactBook.splice(id, 1);
     //let nextContact = contactList.nextSibling;
     //nextContact.style.backgroundColor = '#CEE7F2';
     let deletingNode = selectedContact;
-    /*
-
-    if(<HTMLDivElement>deletingNode.nextElementSibling)
-    {
-        (<HTMLDivElement>deletingNode.nextElementSibling).style.backgroundColor = '#CEE7F2';
-        showDetails(contactBook[id+1]);
-        addressDetails.style.display = 'block';
-        
-    }
-    if(<HTMLDivElement>deletingNode.nextElementSibling){
-        (<HTMLDivElement>deletingNode.nextElementSibling).style.backgroundColor = '#CEE7F2';
-        showDetails(contactBook[id-1]);
+    if (deletingNode.nextElementSibling) {
+        deletingNode.nextElementSibling.style.backgroundColor = '#CEE7F2';
+        showDetails(contactBook[id + 1]);
         addressDetails.style.display = 'block';
     }
-    */
+    else if (deletingNode.previousElementSibling) {
+        deletingNode.previousElementSibling.style.backgroundColor = '#CEE7F2';
+        showDetails(contactBook[id - 1]);
+        addressDetails.style.display = 'block';
+    }
+    else {
+        addresslist.removeChild(deletingNode);
+        addressDetails.style.display = 'None';
+    }
+    contactBook.splice(id, 1);
     addresslist.removeChild(deletingNode);
-    addressDetails.style.display = 'None';
+    //addressDetails.style.display = 'None';   
 }
 function goToHome() {
     addressDetails.style.display = 'none';

@@ -273,13 +273,13 @@ function deleteContact(){
     
     let id:number = contactBook.indexOf(selectedContactDetails);
     
-    contactBook.splice(id,1);
+    
     
     //let nextContact = contactList.nextSibling;
     //nextContact.style.backgroundColor = '#CEE7F2';
     let deletingNode = selectedContact
     
-    /*
+    
 
     if(<HTMLDivElement>deletingNode.nextElementSibling)
     {
@@ -287,16 +287,22 @@ function deleteContact(){
         showDetails(contactBook[id+1]);
         addressDetails.style.display = 'block';
         
-    }   
-    if(<HTMLDivElement>deletingNode.nextElementSibling){
-        (<HTMLDivElement>deletingNode.nextElementSibling).style.backgroundColor = '#CEE7F2';
+    }  
+    
+    else if(<HTMLDivElement>deletingNode.previousElementSibling){
+        (<HTMLDivElement>deletingNode.previousElementSibling).style.backgroundColor = '#CEE7F2';
         showDetails(contactBook[id-1]);
         addressDetails.style.display = 'block';
     }
-    */
     
+    else{
+        addresslist.removeChild(deletingNode);
+        addressDetails.style.display = 'None';
+    }
+    
+    contactBook.splice(id,1);
     addresslist.removeChild(deletingNode); 
-    addressDetails.style.display = 'None';   
+    //addressDetails.style.display = 'None';   
 
 }
 
