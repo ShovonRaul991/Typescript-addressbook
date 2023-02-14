@@ -155,9 +155,7 @@ body{
 }
 
 
-#required-name, #required-email, #required-mobile,#RequiredLandline{
-    color: red;
-}
+
 
 @media screen and (max-width: 450px) {
     .page-nav-items{
@@ -180,10 +178,39 @@ body{
 
 }
 
-.mobile-landline{
-    display: grid;
-    grid-template-columns: auto auto;
+.mobile-landline-label{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    
+    /* grid-template-columns: auto auto; */
+    
 }
+.mobile-landline-label div{
+    width: 49%;
+}
+
+
+.label{
+    font-size: 14px;
+    display: block;
+}
+/* .input{
+    display: block;
+} */
+
+
+.mobile-landline-input input{
+    width: 60%
+}
+.mobile-landline-input{
+    display: inline-flex;
+    width:100%
+}
+
+
+
+
 #NameEntry,#EmailEntry,#WebsiteEntry,#AddressEntry{
     width: 100%;
     height: 25px;
@@ -193,10 +220,12 @@ body{
     width: 100%;
     height: 25px;
     margin-bottom: 20px;
+    position: relative; 
 }
-.mobile-Entry{
-    margin-right: 20px
+#MobileEntry{
+    margin-right: 10px;
 }
+
 #AddressEntry{
     height: 10%;
 }
@@ -214,9 +243,17 @@ body{
 #EditButton{
     display: none;
 }
-#RequiredName,#RequiredEmail,#RequiredMobile{
+ #RequiredName,#RequiredEmail,#RequiredMobile,#RequiredLandline{
     color: red;
+    margin-right: 20px;
+    padding: 0px;
+    width: 50px;
 }
+#AddressEntry{
+    resize: none;
+}
+
+
 
 
 

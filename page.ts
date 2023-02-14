@@ -17,8 +17,8 @@ class Person{
 let addressDetails : any = document.getElementById('ViewDetails');
 let addresslist : any = document.getElementById('ContactListItems');
 let inputForm : any = document.getElementById('InputForm');
-let addBtn: any = document.getElementById('SubmitButton');
-let saveBtn: any = document.getElementById('EditButton');
+let addButton: any = document.getElementById('SubmitButton');
+let saveButton: any = document.getElementById('EditButton');
 let entryName = (document.getElementById('NameEntry') as HTMLInputElement);
 let entryEmail = (document.getElementById('EmailEntry') as HTMLInputElement);
 let entryMobile = (document.getElementById('MobileEntry') as HTMLInputElement);
@@ -30,24 +30,24 @@ let requiredEmail = (document.getElementById('RequiredEmail') as HTMLDivElement)
 let requiredMobile = (document.getElementById('RequiredMobile') as HTMLDivElement);
 let requiredLandline = (document.getElementById('RequiredLandline') as HTMLDivElement);
 
-let selectedAddress:any,selectedFullAddress:any;
+let selectedContact:any,selectedContactDetails:any;
 let validName:boolean=false,validEmail:boolean=false,validMobile:boolean=false,validLandline:boolean=false;
-let addressBook : Person[] = []; //empty array to store all the objects
+let contactBook : Person[] = []; //empty array to store all the objects
 //const person1 = new Person('Chandermani Arora','Chandermani@technovert.com',9192929292922,2334567890,'www.technovert.com','abc streat, some road, madhapur, hyderabad-500033');
 //const person2 = new Person('Sash Pagadala','Chandermani@technovert.com',9192923452922,233456789,'www.keka.com','abc streat, some road, rajpur, hyderabad-500133');
-//addressBook = [person1,person2];
+//contactBook = [person1,person2];
 
 
 function creatingContact(name:string,email:string,mobile:number,landline:number,website:string,address:string){
     let personObj:Person = new Person(name,email,mobile,landline,website,address);
-    addressBook.push(personObj);
+    contactBook.push(personObj);
     
     /* address div list creation */
     
     
     let addressItem : any = document.createElement('div');
     addressItem.setAttribute('class','contact-list-item');
-    addressItem.setAttribute('id',addressBook.length)
+    addressItem.setAttribute('id',contactBook.length)
 
     let contactName : any = document.createElement('p');
     contactName.setAttribute('class','contact-name');
@@ -74,13 +74,13 @@ function creatingContact(name:string,email:string,mobile:number,landline:number,
         }
     addressItem.style.backgroundColor = '#CEE7F2';
     //let addressDetails : any = document.getElementById('ViewDetails');
-    showDetails(addressBook[addressBook.length-1]);
+    showDetails(contactBook[contactBook.length-1]);
     addressDetails.style.display= 'block';
-
+    
     /* selection working */
     addressItem.addEventListener('click',function(){
         let allAddress : any = addresslist.children;
-        selectedAddress = addressItem;
+        selectedContact = addressItem;
         for(let i=0;i<allAddress.length;i++)
         {
             allAddress[i].style.backgroundColor = 'white';
@@ -93,16 +93,15 @@ function creatingContact(name:string,email:string,mobile:number,landline:number,
         
         inputForm.style.display = 'None';
         showDetails(personObj);
-        selectedFullAddress = personObj;
+        selectedContactDetails = personObj;
         document.querySelector('.icon-edit')?.addEventListener('click',function(){
-            
             addressDetails.style.display= 'none';    
-            
+    
             inputForm.style.display = 'block';
             
-            addBtn.style.display = 'None';
+            addButton.style.display = 'None';
             
-            saveBtn.style.display = 'block';    
+            saveButton.style.display = 'block';    
             
             entryName.value = personObj.name;
             entryEmail.value = personObj.email;
@@ -110,10 +109,14 @@ function creatingContact(name:string,email:string,mobile:number,landline:number,
             entryLandline.value = String(personObj.landline);
             entryWebsite.value = personObj.website;
             entryAddress.value = personObj.address;
-        })
+    //editContact(selectedContact,personObj);
+        });
     })
     
 }
+
+
+
 
 
 function showDetails(obj: Person){
@@ -132,22 +135,17 @@ function showDetails(obj: Person){
     
 }
 
-document.getElementById('AddAddress')?.addEventListener('click',function(){
+function inputContact(){
+    validName=validEmail=validMobile=validLandline=false;
     (document.getElementById('Formid') as any).reset();
-    
     addressDetails.style.display= 'none';    
-    
     inputForm.style.display = 'block';
-    
-    
-    addBtn.style.display = 'block';
-    
-    
-    saveBtn.style.display = 'none';  
-});
+    addButton.style.display = 'block';
+    saveButton.style.display = 'none';  
+}
 
 /* form validation */
-entryName.addEventListener('keyup', function(){
+function nameValidate(){
     validName = false;
     let tempName =entryName.value;
     if(tempName.length==0){
@@ -157,9 +155,9 @@ entryName.addEventListener('keyup', function(){
     requiredName.innerHTML = '';
     validName=true;
     }
-});
+}
 
-entryEmail.addEventListener('keyup',function(){
+function validateEmail(){
     validEmail = false;
     let tempEmail = entryEmail.value;
     if(tempEmail.length===0){
@@ -175,26 +173,26 @@ entryEmail.addEventListener('keyup',function(){
             requiredEmail.innerHTML = 'Email is incorrect';
         }
     }
-});
+}
 
-entryMobile.addEventListener('keyup',function(){
+function validateMobile(){
     validMobile = false;
     let tempMobile: any = entryMobile.value;
     if(tempMobile.length==0){
-        requiredMobile.innerHTML = 'Mobile Number is required';
+        requiredMobile.innerHTML = 'Mobile is required';
     }
     else if(tempMobile.length!=10 || (Number(tempMobile)%1)!=0){
         
-            requiredMobile.innerHTML = 'Mobile Number is incorrect';
+            requiredMobile.innerHTML = 'Mobile is incorrect';
         }
     else{
         requiredMobile.innerHTML = '';
         validMobile = true;
     }
 
-});
+}
 
-entryLandline.addEventListener('keyup',function(){
+function validateLandline(){
     validLandline = false;
     let tempLandline : any = entryLandline.value;
     if(tempLandline.length==0){
@@ -207,9 +205,9 @@ entryLandline.addEventListener('keyup',function(){
         requiredLandline.innerHTML = '';
         validLandline = true;
     }
-})
+}
 
-document.getElementById('SubmitButton')?.addEventListener('click', function(){
+function addContact(){
     if(validName&&validEmail&&validMobile&&validLandline){
         let enteredName = entryName.value;
         let enteredEmail =   entryEmail.value; 
@@ -226,95 +224,92 @@ document.getElementById('SubmitButton')?.addEventListener('click', function(){
     else{
         alert('Please fill the form properly');
     }
-})
+}
 
 
-document.getElementById('EditButton')?.addEventListener('click',function(){
-    saveBtn.style.display = 'block';
-    addBtn.style.display = 'None';
+saveButton.addEventListener('click',function(){
+    saveButton.style.display = 'block';
+    addButton.style.display = 'None';
     if(validName&&validEmail&&validMobile&&validLandline){
-        let personId:number = addressBook.indexOf(selectedFullAddress);
+        let personId:number = contactBook.indexOf(selectedContactDetails);
         
-        selectedAddress.querySelectorAll('p').forEach(function(element :any,index:number){
+        selectedContact.querySelectorAll('p').forEach(function(element :any,index:number){
             if(index==0){
                 element.innerText= entryName.value;
                 makeScroll(element);
-                selectedFullAddress.name = element.innerText;
-                addressBook[personId].name = element.innerText;
+                selectedContactDetails.name = element.innerText;
+                contactBook[personId].name = element.innerText;
                 
             }
             else if(index==1){
                 element.innerText=entryEmail.value;
                 makeScroll(element);
-                selectedFullAddress.email=element.innerText;
-                addressBook[personId].email = element.innerText;
+                selectedContactDetails.email=element.innerText;
+                contactBook[personId].email = element.innerText;
             }
             else if(index==2){
                 element.innerText='+91 '+(entryMobile.value);
                 makeScroll(element);
-                selectedFullAddress.mobile=element.innerText;
-                addressBook[personId].mobile = Number((element.innerText as string).split(' ').pop());
+                selectedContactDetails.mobile=element.innerText;
+                contactBook[personId].mobile = Number((element.innerText as string).split(' ').pop());
             }
-            selectedFullAddress.landline = addressBook[personId].landline = Number(entryLandline.value);
-            selectedFullAddress.website =  addressBook[personId].website = entryWebsite.value; 
-            selectedFullAddress.address = addressBook[personId].address = entryAddress.value;
+            selectedContactDetails.landline = contactBook[personId].landline = Number(entryLandline.value);
+            selectedContactDetails.website =  contactBook[personId].website = entryWebsite.value; 
+            selectedContactDetails.address = contactBook[personId].address = entryAddress.value;
         })
         
         alert('saved changes succesfully');
         (document.getElementById('Formid') as HTMLFormElement).reset();
         (document.getElementById('InputForm') as HTMLFormElement).style.display = 'None';
-        showDetails(addressBook[personId]);
+        showDetails(contactBook[personId]);
         addressDetails.style.display = 'block';
     }
     else{
         alert('Please fill the form properly');
     }
-})
+});
 
-document.querySelector('.icon-delete')?.addEventListener('click',function(){
+function deleteContact(){
     
-    let id:number = addressBook.indexOf(selectedFullAddress);
+    let id:number = contactBook.indexOf(selectedContactDetails);
     
-    addressBook.splice(id,1);
+    contactBook.splice(id,1);
     
     //let nextContact = contactList.nextSibling;
     //nextContact.style.backgroundColor = '#CEE7F2';
-    let deletingNode = selectedAddress
+    let deletingNode = selectedContact
     
-    if(addressBook.length>2)
+    /*
+
+    if(<HTMLDivElement>deletingNode.nextElementSibling)
     {
-        if(<HTMLDivElement>deletingNode.nextElementSibling)
-        {
-            (<HTMLDivElement>deletingNode.nextElementSibling).style.backgroundColor = '#CEE7F2';
-            showDetails(addressBook[id+1]);
-            addressDetails.style.display = 'block';
-            
-        }   
-        if(<HTMLDivElement>deletingNode.nextElementSibling){
-            (<HTMLDivElement>deletingNode.nextElementSibling).style.backgroundColor = '#CEE7F2';
-            showDetails(addressBook[id-1]);
-            addressDetails.style.display = 'block';
-        }
-    }
-    else{
+        (<HTMLDivElement>deletingNode.nextElementSibling).style.backgroundColor = '#CEE7F2';
+        showDetails(contactBook[id+1]);
+        addressDetails.style.display = 'block';
         
-        addressDetails.style.display = 'None';
+    }   
+    if(<HTMLDivElement>deletingNode.nextElementSibling){
+        (<HTMLDivElement>deletingNode.nextElementSibling).style.backgroundColor = '#CEE7F2';
+        showDetails(contactBook[id-1]);
+        addressDetails.style.display = 'block';
     }
+    */
     
-    addresslist.removeChild(deletingNode);    
+    addresslist.removeChild(deletingNode); 
+    addressDetails.style.display = 'None';   
 
-})
+}
 
-document.getElementById('Home')?.addEventListener('click',function(){
+function goToHome(){
     
     addressDetails.style.display= 'none';    
-})
+}
 
 /* Extra functions added lastly after the feedback */
 
 function makeScroll(element:any){
     if(isOverflown(element)){
-        selectedAddress.style.overflowX = "scroll"
+        selectedContact.style.overflowX = "scroll"
     }
 }
 
